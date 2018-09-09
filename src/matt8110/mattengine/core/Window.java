@@ -4,6 +4,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.vector.Vector3f;
 
 import matt8110.mattengine.cubemap.Skybox;
@@ -31,7 +32,7 @@ public class Window {
 	public static Shader shader2D, shaderText;
 	public static Camera currentCamera;
 	
-	public static void createWindow(String title, int width, int height, boolean fullscreen, Camera camera, int msaa) {
+	public static void createWindow(String title, int width, int height, boolean fullscreen, Camera camera, int aa) {
 		
 		WIDTH = width;
 		HEIGHT = height;
@@ -42,7 +43,7 @@ public class Window {
 			
 			Display.setTitle(title);
 			setFullscreen(fullscreen);
-			Display.create();
+			Display.create(new PixelFormat().withSamples(aa).withDepthBits(24));
 			
 		}catch(Exception e) {
 			System.err.println("Failed to create window!");
@@ -70,7 +71,7 @@ public class Window {
 		Shadows.initShadows(2048, 400);
 		
 		//Init gBuffer
-		GBuffer.initGBuffer(msaa);
+		GBuffer.initGBuffer(1);
 		
 		
 	}
@@ -129,14 +130,14 @@ public class Window {
 	
 	public static void _renderFinal() {
 		
-		//Render skybox before final output
-		Skybox.renderSkybox();
-		
 		//Render the final output
 		LightManager.updateLights();
 		gBufferOutputShader.useShader();
 		gBufferOutputShader.updateShader();
 		GBuffer.renderGBuffer();
+		
+		//Rendering the skybox
+		Skybox.renderSkybox();
 		
 	}
 	

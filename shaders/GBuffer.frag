@@ -31,6 +31,7 @@ uniform vec3 directionalLightDirection;
 
 uniform bool normalMapEnable;
 uniform bool cubeMapEnable;
+uniform float cubeMapStrength;
 
 uniform bool specularEnable;
 uniform bool specularMapEnable;
@@ -75,7 +76,7 @@ void main()
 	{
 		vec3 viewVector = normalize(-camPos);
 		vec3 reflectedVector = reflect(viewVector, normalize(gNormal.xyz));
-		gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, reflectedVector).xyz, 0.5);
+		gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, reflectedVector).xyz, cubeMapStrength);
 		//gDiffuse = texture(cubeMap, reflectedVector);
 	}
 	

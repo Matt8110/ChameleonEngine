@@ -47,7 +47,7 @@ public class GBuffer {
 		GL13.glActiveTexture(GL13.GL_TEXTURE3);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, _gBuffer._gTangent);
 		GL13.glActiveTexture(GL13.GL_TEXTURE4);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, _gBuffer._gTexCoord);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, _gBuffer._gSpecular);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		output.render();

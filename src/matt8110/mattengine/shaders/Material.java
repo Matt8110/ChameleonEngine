@@ -26,11 +26,12 @@ public class Material {
 	private boolean cubeMapEnabled = false;
 	private boolean normalMapEnabled = false;
 	private float secondTextureStrength = 0.5f;
-	private float specularPower = 1.0f, specularDampening = 10.0f;
+	private float specularPower = 2.0f, specularDampening = 10.0f;
 	private Vector3f diffuseColor = new Vector3f(1.0f, 1.0f, 1.0f);
 	private boolean canCastShadows = false;
 	public boolean _cullingEnabled = true;
 	private FBO cubeMapRenderFBO;
+	private float cubeMapStrength = 0.5f;
 	
 	public void setShaderData(GBufferShader shader) {
 		
@@ -46,6 +47,7 @@ public class Material {
 		shader.setFloat(shader.secondTextureStrength, secondTextureStrength);
 		shader.setFloat(shader.specularStrength, specularPower);
 		shader.setFloat(shader.specularDampening, specularDampening);
+		shader.setFloat(shader.cubeMapStrength, cubeMapStrength);
 		
 		//Only setting textures if they're valid
 		if (mainTexture != -1) {
@@ -142,10 +144,12 @@ public class Material {
 			Window.gBufferOutputShader.useShader();
 			
 			Window.gBufferOutputShader.setRenderingCubeMap(true);
+			Window.skyboxShader.setCubeMapRendering(true);
 		
 			Window._renderFinal();
 			
 			Window.gBufferOutputShader.setRenderingCubeMap(false);
+			Window.skyboxShader.setCubeMapRendering(false);
 			
 			cubeMapRenderFBO.unbindFBO();
 			
@@ -161,13 +165,16 @@ public class Material {
 	public void setCubeMap(int cubeMap) {
 		this.cubeMap = cubeMap;
 	}
-	public void setCubeMapEnabled(boolean enable) {
+	public void enableCubeMap(boolean enable) {
 		cubeMapEnabled = enable;
 	}
 	public void setSpecularPower(float pow) {
 		specularPower = pow;
 	}
-	public void setShadowCasting(boolean enable) {
+	public void setCubeMapStrength(float strength) {
+		cubeMapStrength = strength;
+	}
+	public void enableShadowCasting(boolean enable) {
 		canCastShadows = enable;
 	}
 	public boolean getCanCastShadows() {
@@ -180,16 +187,19 @@ public class Material {
 		setSpecularPower(power);
 		setSpecularDampening(dampening);
 	}
-	public void setLightingEnabled(boolean enable) {
+	public void enableLighting(boolean enable) {
 		lightingEnabled = enable;
 	}
-	public void setSpecularEnabled(boolean enable) {
+	public void enableSpecular(boolean enable) {
 		specularEnabled = enable;
 	}
-	public void setNormalMapEnabled(boolean enable) {
+	public void enableSpecularMap(boolean enable) {
+		specularMapEnabled = enable;
+	}
+	public void enableNormalMap(boolean enable) {
 		normalMapEnabled = enable;
 	}
-	public void setSecondTextureEnabled(boolean enable) {
+	public void enableSecondTexture(boolean enable) {
 		secondTextureEnabled = enable;
 	}
 	public void setSecondTextureStrength(float strength) {

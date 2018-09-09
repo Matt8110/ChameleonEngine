@@ -12,7 +12,7 @@ import matt8110.mattengine.lighting.Shadows;
 
 public class SkyboxShader extends Shader{
 
-	private int projectionLoc, transformationLoc, viewLoc, skyboxTexLoc;
+	private int projectionLoc, transformationLoc, viewLoc, skyboxTexLoc, renderingCubeMapLoc;
 	
 	public SkyboxShader() {
 		super("shaders/skybox.vert", "shaders/skybox.frag");
@@ -22,6 +22,7 @@ public class SkyboxShader extends Shader{
 		transformationLoc = super.getUniformLocation("transformationMatrix");
 		viewLoc = super.getUniformLocation("viewMatrix");
 		skyboxTexLoc = super.getUniformLocation("skybox");
+		renderingCubeMapLoc = super.getUniformLocation("renderingCubeMap");
 		
 		super.setInt(skyboxTexLoc, 0);
 		
@@ -29,6 +30,10 @@ public class SkyboxShader extends Shader{
 	
 	public void setTransformation(Vector3f position, Vector3f rotation, float scale) {
 		super.setMatrix4(transformationLoc, Maths.getTransformtionMatrix(position, rotation, scale));
+	}
+	
+	public void setCubeMapRendering(boolean enable) {
+		super.setBool(renderingCubeMapLoc, enable);
 	}
 	
 	public void setProjectionAndViewMatrix() {

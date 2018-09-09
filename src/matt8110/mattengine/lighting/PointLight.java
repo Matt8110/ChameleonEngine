@@ -8,6 +8,7 @@ public class PointLight {
 	public Vector3f position;
 	public Vector3f color;
 	public float range;
+	public boolean _shadowsEnabled;
 	
 	public PointLight(float x, float y, float z, float range) {
 		createLight(x, y, z, 1.0f, 1.0f, 1.0f, range);
@@ -22,6 +23,16 @@ public class PointLight {
 		color = new Vector3f(r, g, b);
 		this.range = range;
 		
+	}
+	
+	public void _renderShadowMap() {
+		
+		
+		
+	}
+	
+	public void enableShadows(boolean enable) {
+		_shadowsEnabled = enable;
 	}
 	
 	public void setPosition(float x, float y, float z) {

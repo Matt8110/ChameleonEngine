@@ -2,6 +2,7 @@ package matt8110.mattengine;
 
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
@@ -36,13 +37,13 @@ public class Application {
 		Window.setVSync(false);
 		rootNode = Renderer.rootNode;
 		
-		Renderer.setAmbient(0.05f, 0.05f, 0.05f);
+		Renderer.setAmbient(0.005f, 0.005f, 0.005f);
 		Shadows.setShadows(false);
 		Window.setCulling(true);
 		
 		Mouse.setGrabbed(true);
 		DirectionalLight.enable(false);
-		DirectionalLight.setColor(0.3f, 0.3f, 0.3f);
+		DirectionalLight.setColor(1.0f, 1.0f, 1.0f);
 		DirectionalLight.setRotation(45, 90);
 		
 		Renderer.setCellShading(false);
@@ -52,28 +53,29 @@ public class Application {
 		barrel = new OBJModel("models/barrel.obj", "models/barrel.png", "models/barrelNormal.png");
 		barrel.setPosition(0, 6, 0);
 		//barrel.setScale(4);
-		barrel.material.setNormalMapEnabled(false);
-		barrel.material.setSpecularEnabled(false);
-		barrel.material.setShadowCasting(false);
+		barrel.material.enableNormalMap(true);
+		barrel.material.enableSpecular(true);
+		barrel.material.enableShadowCasting(false);
+		rootNode.add(barrel);
 		//barrel.material.setSpecularProperties(1.0f, 5);
-		//barrel.material.setSpecularMap(Utils.loadTexture("models/barrelSpecular.png"));
-		//barrel.material.setCubeMap(Utils.loadCubeMap("skybox/front.png", "skybox/back.png", "skybox/left.png", "skybox/right.png", "skybox/top.png", "skybox/bottom.png"));
+		barrel.material.setSpecularMap(Utils.loadTexture("models/barrelSpecular.png"));
+		barrel.material.setCubeMap(Utils.loadCubeMap("lagoonbox/front.png", "lagoonbox/back.png", "lagoonbox/left.png", "lagoonbox/right.png", "lagoonbox/top.png", "lagoonbox/bottom.png"));
 		
-		OBJModel barrel2 = new OBJModel("models/barrel.obj", "models/barrel.png", "models/barrelNormal.png");
+		/*OBJModel barrel2 = new OBJModel("models/barrel.obj", "models/barrel.png", "models/barrelNormal.png");
 		barrel2.setPosition(0, 6, 12);
 		barrel2.material.setNormalMapEnabled(true);
 		barrel2.material.setSpecularEnabled(true);
 		barrel2.material.setSpecularMap(Utils.loadTexture("models/barrelSpecular.png"));
-		rootNode.add(barrel2);
+		rootNode.add(barrel2);*/
 		
 		OBJModel floor = new OBJModel("models/floor.obj", "stone.png", "stoneNormal.png");
 		floor.setPosition(0, -50, 0);
 		floor.setScale(500);
 		rootNode.add(floor);
-		floor.material.setNormalMapEnabled(true);
-		floor.material.setSpecularEnabled(true);
-		floor.material.setSpecularProperties(0.35f, 10.0f);
-		//floor.material.setCubeMap(Utils.loadCubeMap("skybox/front.png", "skybox/back.png", "skybox/left.png", "skybox/right.png", "skybox/top.png", "skybox/bottom.png"));
+		floor.material.enableNormalMap(true);
+		floor.material.enableSpecular(true);
+		floor.material.setSpecularProperties(2.25f, 50.0f);
+		//floor.material.setCubeMap(Utils.loadCubeMap("lagoonbox/front.png", "lagoonbox/back.png", "lagoonbox/left.png", "lagoonbox/right.png", "lagoonbox/top.png", "lagoonbox/bottom.png"));
 		
 		//Scene scene = new Scene("models/kimpossible.obj", "kpbody1.png");
 		//rootNode.add(scene);
@@ -82,8 +84,11 @@ public class Application {
 		Random ran = new Random();
 		
 		PointLight light = new PointLight(10, 10, 10, 7);
-		//light.setColor(ran.nextFloat(), ran.nextFloat(), ran.nextFloat());
 		LightManager.addLight(light);
+		
+		//PointLight light2 = new PointLight(100, 10, 10, 7);
+		//light2.setColor(5.0f, 5.0f, 5.0f);
+		//LightManager.addLight(light2);
 		
 		
 		Font font = new Font("fonts/default_dist.fnt");
@@ -91,8 +96,10 @@ public class Application {
 		Text t = new Text(font, "                 ", 16, 16, 0.25f);
 		Renderer2D.add(t);
 		
-		barrel.material.generateCubeMapFromScene(0, 6, 0, 2048);
-		rootNode.add(barrel);
+		//barrel.material.generateCubeMapFromScene(0, 6, 0, 2048);
+		barrel.material.setCubeMapStrength(0.15f);
+		//floor.material.generateCubeMapFromScene(0, -51, 0, 512);
+		floor.material.setCubeMapStrength(0.50f);
 		
 		/*float dWidth = Display.getWidth() / 4.0f;
 		float dHeight = ((float)Display.getHeight()/(float)Display.getWidth()) * dWidth;
@@ -104,6 +111,9 @@ public class Application {
 		Texture2D gNorm = new Texture2D(GBuffer.getFBO()._gTangent, new Vector2f(dWidth*2, 0), new Vector2f(dWidth, dHeight));
 		Renderer2D.add(gNorm);
 		Texture2D gDiffuse = new Texture2D(GBuffer.getFBO()._gDiffuse, new Vector2f(dWidth*3, 0), new Vector2f(dWidth, dHeight));
+		Renderer2D.add(gDiffuse);*/
+		
+		/*Texture2D gDiffuse = new Texture2D(GBuffer.getFBO()._gDiffuse, new Vector2f(0, 0), new Vector2f(612, 412));
 		Renderer2D.add(gDiffuse);*/
 		
 		float lightRot = 180;

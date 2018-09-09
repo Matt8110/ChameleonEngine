@@ -11,11 +11,13 @@ uniform sampler2D gSpecular;
 uniform sampler2D specularMap;
 
 const int MAX_LIGHTS = 100;
-const float lightCutoff = 14;
+const float lightCutoff = 20;
 uniform vec3 pointLightPosition[MAX_LIGHTS];
 uniform vec3 pointLightColor[MAX_LIGHTS];
 uniform float pointLightRange[MAX_LIGHTS];
 uniform float numberOfPointLights;
+uniform float exposure;
+uniform float gamma;
 
 uniform vec3 directionalLightDirection;
 uniform vec3 directionalLightColor;
@@ -48,6 +50,12 @@ void main()
 	tangent = texture(gTangent, texCoordPass).xyz;
 	specular = texture(gSpecular, texCoordPass).xy;
 	
+	//Adjusting exposure for HDR
+	diffuse.rgb = vec3(1.0) - exp(-diffuse.rgb * exposure);
+	
+	//Gamma correction for diffuse
+	diffuse.rgb = pow(diffuse.rgb, vec3(gamma));
+	
 	finalBrightness += calculateDirectionalLight();
 	finalBrightness += calculatePointLights();
 	
@@ -66,6 +74,9 @@ void main()
 	diffuse.a = 1.0;
 	
 	colour = vec4(diffuse.rgb, 1.0) * vec4(finalBrightness, 1.0);
+	
+	//Gamma correction
+	colour.rgb = pow(colour.rgb, vec3(1.0/gamma));
 }
 
 vec3 calculateDirectionalLight()
@@ -80,19 +91,17 @@ vec3 calculatePointLights()
 {
 	vec3 finalLightColour = vec3(0.0);
 	
-	
-	
 	for (int i = 0; i < numberOfPointLights; i++)
 	{
-			
 			float dist = length(pointLightPosition[i] - position);
+			float range = pointLightRange[i];
 			
-			
-			if (dist < pointLightRange[i]*lightCutoff)
+			if (dist < range*lightCutoff)
 			{
 				vec3 dir = normalize(pointLightPosition[i] - position);
-				float rangeCalc = ((1.0/dist) * pointLightRange[i]);
-				finalLightColour += (rangeCalc * dot(dir, normal) + rangeCalc*calculateSpecular(dir)) * pointLightColor[i];
+				float rangeCalc = 1.0 / (1.0 + (2.0 / range) * dist + (1.0 / (range * range)) * (dist * dist));
+				finalLightColour += (rangeCalc * dot(dir, normal)  +  rangeCalc * calculateSpecular(dir)) * pointLightColor[i];
+				
 			}
 	}
 	

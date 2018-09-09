@@ -43,7 +43,7 @@ public class OBJModel extends Renderable{
 		
 		material.mainTexture = Utils.loadTexture(texture);
 		material.normalMap = Utils.loadTexture(normalMap);
-		material.setNormalMapEnabled(true);
+		material.enableNormalMap(true);
 		
 		filename = file;
 		mtlFile = new MTLFile();

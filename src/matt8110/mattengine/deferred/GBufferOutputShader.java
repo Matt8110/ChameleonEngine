@@ -17,7 +17,7 @@ public class GBufferOutputShader extends Shader{
 
 	private int gPositionLoc, gNormalLoc, gDiffuseLoc, gTangentLoc, gSpecularLoc,  directionalLightDirectionLoc, directionalLightEnableLoc, directionalLightColorLoc;
 	private int ambientColor, cameraPositionLoc, cellShadingEnableLoc, renderingCubeMapLoc;
-	private int pointLightPositionLoc, pointLightColorLoc, pointLightRangeLoc, numberOfPointLightsLoc;
+	private int pointLightPositionLoc, pointLightColorLoc, pointLightRangeLoc, numberOfPointLightsLoc, exposureLoc, gammaLoc;
 	
 	public GBufferOutputShader() {
 		super("shaders/gBufferOutput.vert", "shaders/gBufferOutput.frag");
@@ -43,6 +43,8 @@ public class GBufferOutputShader extends Shader{
 		pointLightColorLoc = super.getUniformLocation("pointLightColor");
 		pointLightRangeLoc = super.getUniformLocation("pointLightRange");
 		numberOfPointLightsLoc = super.getUniformLocation("numberOfPointLights");
+		exposureLoc = super.getUniformLocation("exposure");
+		gammaLoc = super.getUniformLocation("gamma");
 		
 		super.setInt(gPositionLoc, 0);
 		super.setInt(gNormalLoc, 1);
@@ -70,6 +72,8 @@ public class GBufferOutputShader extends Shader{
 		
 		super.setBool(directionalLightEnableLoc, DirectionalLight._enabled);
 		super.setBool(cellShadingEnableLoc, Renderer._cellShadingEnabled);
+		super.setFloat(exposureLoc, Renderer._exposure);
+		super.setFloat(gammaLoc, Renderer._gamma);
 		
 	}
 	

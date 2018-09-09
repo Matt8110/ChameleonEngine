@@ -21,6 +21,18 @@ public class LightManager {
 		setLightData(light._InternalID, 0, 0, 0, 0, 0, 0, 0);
 	}
 	
+	public static void renderShadowMaps() {
+		
+		for (int i = 0; i < pointLights.size(); i++) {
+			
+			if (pointLights.get(i)._shadowsEnabled) {
+				pointLights.get(i)._renderShadowMap();
+			}
+			
+		}
+		
+	}
+	
 	public static void updateLights() {
 		
 		for (int i = 0; i < pointLights.size(); i++) {

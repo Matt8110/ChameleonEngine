@@ -6,10 +6,19 @@ uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
+uniform bool renderingCubeMap;
+
 out vec3 texCoordPass;
 
 void main()
 {
 	texCoordPass = vertex;
-	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(vertex, 1.0);
+	
+	vec3 worldPos = vertex;
+	
+	if (!renderingCubeMap)
+		//texCoordPass = -texCoordPass;
+		//worldPos.y = -worldPos.y;
+		
+	gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(worldPos, 1.0);
 }

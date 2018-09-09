@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL32;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -16,24 +17,52 @@ public class Shader {
 	protected int programID;
 	private int vertexID;
 	private int fragmentID;
-	private String vertexSource = "", fragmentSource = "";
+	private int geometryID;
 	
 	public Shader(String vertexShader, String fragmentShader) {
 		
+		createShader(vertexShader, null, fragmentShader);
+		
+	}
+	
+	public Shader(String vertexShader, String geometryShader, String fragmentShader) {
+		
+		createShader(vertexShader, geometryShader, fragmentShader);
+		
+	}
+	
+	private void createShader(String vertexShader, String geometryShader, String fragmentShader) {
+		
+		vertexID = loadShader(vertexShader, GL20.GL_VERTEX_SHADER);
+		fragmentID = loadShader(fragmentShader, GL20.GL_FRAGMENT_SHADER);
+		
+		if (geometryShader != null) {
+			geometryID = loadShader(geometryShader, GL32.GL_GEOMETRY_SHADER);
+		}
+		
+		programID = GL20.glCreateProgram();
+		
+		GL20.glAttachShader(programID, vertexID);
+		GL20.glAttachShader(programID, fragmentID);
+		
+		if (geometryShader != null)
+			GL20.glAttachShader(programID, geometryID);
+		
+		GL20.glLinkProgram(programID);
+		
+	}
+	
+	private int loadShader(String filename, int type) {
+		
+		String source = "";
+		int id;
+		
 		try {
 			
-			Scanner scan = new Scanner(new File(vertexShader));
+			Scanner scan = new Scanner(new File(filename));
 			
 			while (scan.hasNextLine()) {
-				vertexSource += scan.nextLine() + "\n";
-			}
-			
-			scan.close();
-			
-			scan = new Scanner(new File(fragmentShader));
-			
-			while (scan.hasNextLine()) {
-				fragmentSource += scan.nextLine() + "\n";
+				source += scan.nextLine() + "\n";
 			}
 			
 			scan.close();
@@ -42,36 +71,26 @@ public class Shader {
 			e.printStackTrace();
 		}
 		
-		vertexID = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
-		fragmentID = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
+		id = GL20.glCreateShader(type);
 		
-		GL20.glShaderSource(vertexID, vertexSource);
-		GL20.glShaderSource(fragmentID, fragmentSource);
+		GL20.glShaderSource(id, source);
+		GL20.glCompileShader(id);
 		
-		GL20.glCompileShader(vertexID);
-		GL20.glCompileShader(fragmentID);
-		
-		int result = GL20.glGetShaderi(vertexID, GL20.GL_COMPILE_STATUS);
+		int result = GL20.glGetShaderi(id, GL20.GL_COMPILE_STATUS);
 		if (result == 0) {
-			System.err.println("Vertex Shader");
-			System.err.println(GL20.glGetShaderInfoLog(vertexID, 500));
+			
+			if (type == GL20.GL_VERTEX_SHADER)
+				System.err.println("Vertex Shader");
+			if (type == GL20.GL_FRAGMENT_SHADER)
+				System.err.println("Fragment Shader");
+			if (type == GL32.GL_GEOMETRY_SHADER)
+				System.err.println("Geometry Shader");
+			
+			
+			System.err.println(GL20.glGetShaderInfoLog(id, 500));
 		}
-		result = GL20.glGetShaderi(fragmentID, GL20.GL_COMPILE_STATUS);
-		if (result == 0) {
-			System.err.println("Fragment Shader");
-			System.err.println(GL20.glGetShaderInfoLog(fragmentID, 500));
-		}
 		
-		
-		programID = GL20.glCreateProgram();
-		
-		GL20.glAttachShader(programID, vertexID);
-		GL20.glAttachShader(programID, fragmentID);
-		
-		GL20.glLinkProgram(programID);
-		
-		vertexSource = null;
-		fragmentSource = null;
+		return id;
 		
 	}
 	

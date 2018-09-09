@@ -15,7 +15,7 @@ public class GBufferShader extends Shader{
 	private int projectionLoc, transformationLoc, viewLoc, shadowViewLoc, shadowProjectionLoc, shadowBiasLoc, cameraPosLoc;
 	private int mainTextureLoc, secondTextureLoc, shadowMapLoc, directionalLightDirectionLoc, normalMapLoc, specularMapLoc, cubeMapLoc;
 	public int secondTextureEnable, normalMapEnable, specularEnable, specularMapEnable, shadowEnable, cubeMapEnable;
-	public int secondTextureStrength, diffuseColor, specularStrength, specularDampening;
+	public int secondTextureStrength, diffuseColor, specularStrength, specularDampening, cubeMapStrength;
 	
 	public GBufferShader() {
 		super("shaders/GBuffer.vert", "shaders/GBuffer.frag");
@@ -28,6 +28,7 @@ public class GBufferShader extends Shader{
 		shadowProjectionLoc = super.getUniformLocation("shadowProjectionMatrix");
 		shadowViewLoc = super.getUniformLocation("shadowViewMatrix");
 		shadowBiasLoc = super.getUniformLocation("shadowBias");
+		cubeMapStrength = super.getUniformLocation("cubeMapStrength");
 		
 		//Textures
 		mainTextureLoc = super.getUniformLocation("mainTexture");
