@@ -6,7 +6,6 @@ out vec4 colour;
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gDiffuse;
-uniform sampler2D gTangent;
 uniform sampler2D gSpecular;
 uniform sampler2D specularMap;
 
@@ -47,7 +46,6 @@ void main()
 	position = texture(gPosition, texCoordPass).xyz;
 	normal = texture(gNormal, texCoordPass).xyz;
 	diffuse = texture(gDiffuse, texCoordPass);
-	tangent = texture(gTangent, texCoordPass).xyz;
 	specular = texture(gSpecular, texCoordPass).xy;
 	
 	//Adjusting exposure for HDR
@@ -56,14 +54,11 @@ void main()
 	//Gamma correction for diffuse
 	diffuse.rgb = pow(diffuse.rgb, vec3(gamma));
 	
+	int x = 0;
+	
+	
 	finalBrightness += calculateDirectionalLight();
 	finalBrightness += calculatePointLights();
-	
-	if (cellShadingEnable)
-	{
-		float cellShadeLevel = floor(finalBrightness.r * cellLevels);
-		finalBrightness = vec3(cellShadeLevel / cellLevels);
-	}
 	
 	finalBrightness = max(finalBrightness, ambientColor);
 	
@@ -71,7 +66,11 @@ void main()
 	if (diffuse.r == 0 && diffuse.g == 0 && diffuse.b == 0)
 		discard;
 		
-	diffuse.a = 1.0;
+		if (cellShadingEnable)
+	{
+		//float cellShadeLevel = floor(finalBrightness.r * cellLevels);
+		//finalBrightness = vec3(cellShadeLevel / cellLevels);
+	}
 	
 	colour = vec4(diffuse.rgb, 1.0) * vec4(finalBrightness, 1.0);
 	

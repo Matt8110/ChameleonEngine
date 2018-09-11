@@ -8,6 +8,7 @@ import matt8110.mattengine.core.Camera;
 import matt8110.mattengine.core.FBO;
 import matt8110.mattengine.core.Utils;
 import matt8110.mattengine.core.Window;
+import matt8110.mattengine.cubemap.CubeMap;
 import matt8110.mattengine.deferred.GBufferOutputShader;
 import matt8110.mattengine.deferred.GBufferShader;
 import matt8110.mattengine.lighting.DirectionalLight;
@@ -32,6 +33,9 @@ public class Material {
 	public boolean _cullingEnabled = true;
 	private FBO cubeMapRenderFBO;
 	private float cubeMapStrength = 0.5f;
+	private boolean parallaxCorrected = false;
+	private Vector3f cubePosition = new Vector3f();
+	private Vector3f cubeSize = new Vector3f();
 	
 	public void setShaderData(GBufferShader shader) {
 		
@@ -41,6 +45,7 @@ public class Material {
 		shader.setBool(shader.specularEnable, specularEnabled);
 		shader.setBool(shader.specularMapEnable, specularMapEnabled);
 		shader.setBool(shader.cubeMapEnable, cubeMapEnabled);
+		shader.setBool(shader.parallaxCorrected, parallaxCorrected);
 		
 		//Setting values that need set
 		shader.setVector3(shader.diffuseColor, diffuseColor);
@@ -48,6 +53,8 @@ public class Material {
 		shader.setFloat(shader.specularStrength, specularPower);
 		shader.setFloat(shader.specularDampening, specularDampening);
 		shader.setFloat(shader.cubeMapStrength, cubeMapStrength);
+		shader.setVector3(shader.cubePosition, cubePosition);
+		shader.setVector3(shader.cubeSize, cubeSize);
 		
 		//Only setting textures if they're valid
 		if (mainTexture != -1) {
@@ -87,12 +94,25 @@ public class Material {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 	}
 	
-	public void generateCubeMapFromScene(float x, float y, float z, int size) {
+	public CubeMap generateCubeMapFromScene(float x, float y, float z, int size) {
 		
 		cubeMapRenderFBO = new FBO(size, size);
 		cubeMapRenderFBO.addDepthAttachment();
 		
-		cubeMap = Utils.createEmptyCubeMap(size);
+		CubeMap cubeMap = new CubeMap();
+		
+		//if (cubeMap == 0) {
+			cubeMap.texture = Utils.createEmptyCubeMap(size);
+		//}
+			
+		cubePosition.x = x;
+		cubePosition.y = y;
+		cubePosition.z = z;
+		
+		cubeMap.position.x = cubePosition.x;
+		cubeMap.position.y = cubePosition.y;
+		cubeMap.position.z = cubePosition.z;
+		
 		cubeMapEnabled = true;
 		
 		Camera defaultCam = Window.currentCamera;
@@ -134,11 +154,14 @@ public class Material {
 				
 			cubeMapCam.setRotation(rotX, rotY, 0);
 			
+			this.cubeMap = cubeMap.texture;
+			this.cubePosition = cubeMap.position;
+			
 			Window._renderScene();
 		
 			
 			
-			cubeMapRenderFBO.setCubeMapTexture(cubeMap, i);
+			cubeMapRenderFBO.setCubeMapTexture(cubeMap.texture, i);
 			cubeMapRenderFBO.bindFBO();
 			
 			Window.gBufferOutputShader.useShader();
@@ -152,18 +175,20 @@ public class Material {
 			Window.skyboxShader.setCubeMapRendering(false);
 			
 			cubeMapRenderFBO.unbindFBO();
-			
 		}
 		
 		Window.currentCamera = defaultCam;
+		
+		return cubeMap;
 		
 	}
 	
 	public void setCulling(boolean enable) {
 		_cullingEnabled = enable;
 	}
-	public void setCubeMap(int cubeMap) {
-		this.cubeMap = cubeMap;
+	public void setCubeMap(CubeMap cubeMap) {
+		this.cubeMap = cubeMap.texture;
+		this.cubePosition = cubeMap.position;
 	}
 	public void enableCubeMap(boolean enable) {
 		cubeMapEnabled = enable;
@@ -176,6 +201,12 @@ public class Material {
 	}
 	public void enableShadowCasting(boolean enable) {
 		canCastShadows = enable;
+	}
+	public void setParallaxCorrectedCubeMap(boolean enable, float xSize, float ySize, float zSize) {
+		parallaxCorrected = enable;
+		cubeSize.x = xSize;
+		cubeSize.y = ySize;
+		cubeSize.z = zSize;
 	}
 	public boolean getCanCastShadows() {
 		return canCastShadows;

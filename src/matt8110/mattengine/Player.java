@@ -13,9 +13,9 @@ import matt8110.mattengine.geometry.OBJModel;
 public class Player {
 
 	//Player stuff
-	public static Vector3f position = new Vector3f(15, 10, 15);
+	public static Vector3f position = new Vector3f(0, 0, 0);
 	public static float rotX, rotY;
-	public static float speed = 0.05f;
+	public static float speed = 0.1f;
 	private static float lastXInc = 0, lastYInc = 0, lastZInc = 0;
 	private static float lastX, lastY, lastZ;
 	

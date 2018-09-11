@@ -1,0 +1,433 @@
+# Blender MTL File: 'None'
+# Material Count: 36
+
+newmtl Material.001
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\2C312C37_c.png
+
+newmtl Material__126
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\black.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\black.png
+
+newmtl VMtl001
+Ns 17.647059
+Ka 0.398400 0.398400 0.398400
+Kd 0.398400 0.398400 0.398400
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\196C0925_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\196C0925_c.png
+
+newmtl VMtl006
+Ns 17.647059
+Ka 0.199200 0.199200 0.199200
+Kd 0.199200 0.199200 0.199200
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\37DD4E64_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\37DD4E64_c.png
+
+newmtl VMtl007
+Ns 17.647059
+Ka 0.894500 0.894500 0.894500
+Kd 0.894500 0.894500 0.894500
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd 39B4C203_c.png
+map_Ka 39B4C203_c.png
+
+newmtl VMtl009
+Ns 17.647059
+Ka 0.894500 0.894500 0.894500
+Kd 0.894500 0.894500 0.894500
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\2CCE0C4A_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\2CCE0C4A_c.png
+
+newmtl VMtl010
+Ns 17.647059
+Ka 0.894500 0.894500 0.894500
+Kd 0.894500 0.894500 0.894500
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\7DBBF446_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\7DBBF446_c.png
+
+newmtl VMtl016
+Ns 17.647059
+Ka 0.246100 0.246100 0.246100
+Kd 0.246100 0.246100 0.246100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd 4B2B76B_c.png
+map_Ka 4B2B76B_c.png
+
+newmtl VMtl018
+Ns 17.647059
+Ka 0.347700 0.347700 0.347700
+Kd 0.347700 0.347700 0.347700
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\8AA76A5_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\8AA76A5_c.png
+
+newmtl VMtl021
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\4E87E087_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\4E87E087_c.png
+
+newmtl VMtl024
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\3C72B2A_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\3C72B2A_c.png
+
+newmtl VMtl025
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\212D3C4E_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\212D3C4E_c.png
+
+newmtl VMtl028
+Ns 17.647059
+Ka 0.097700 0.097700 0.097700
+Kd 0.097700 0.097700 0.097700
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\2C312C37_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\2C312C37_c.png
+
+newmtl VMtl029
+Ns 17.647059
+Ka 0.445300 0.445300 0.445300
+Kd 0.445300 0.445300 0.445300
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\3FADD34B_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\3FADD34B_c.png
+
+newmtl VMtl031
+Ns 17.647059
+Ka 0.363300 0.363300 0.363300
+Kd 0.363300 0.363300 0.363300
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\64674252_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\64674252_c.png
+
+newmtl VMtl032
+Ns 17.647059
+Ka 0.847700 0.847700 0.847700
+Kd 0.847700 0.847700 0.847700
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\1E3F706A_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\1E3F706A_c.png
+
+newmtl VMtl033
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\7C539D9A_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\7C539D9A_c.png
+
+newmtl VMtl034
+Ns 17.647059
+Ka 0.847700 0.847700 0.847700
+Kd 0.847700 0.847700 0.847700
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\3024F421_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\3024F421_c.png
+
+newmtl VMtl035
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\382B7295_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\382B7295_c.png
+
+newmtl VMtl036
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\4598980_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\4598980_c.png
+
+newmtl VMtl037
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\73181CBF_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\73181CBF_c.png
+
+newmtl VMtl038
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\3718093C_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\3718093C_c.png
+
+newmtl VMtl039
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\64FFE518_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\64FFE518_c.png
+
+newmtl VMtl040
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\4FD46FF6_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\4FD46FF6_c.png
+
+newmtl VMtl079
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\636C5E89_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\636C5E89_c.png
+
+newmtl VMtl080
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\26D56437_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\26D56437_c.png
+
+newmtl VMtl083
+Ns 17.647059
+Ka 0.996100 0.996100 0.996100
+Kd 0.996100 0.996100 0.996100
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\7003A16E_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\7003A16E_c.png
+
+newmtl VMtl088
+Ns 17.647059
+Ka 0.277300 0.277300 0.277300
+Kd 0.277300 0.277300 0.277300
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\69F2958_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\69F2958_c.png
+
+newmtl VMtl090
+Ns 17.647059
+Ka 0.312500 0.312500 0.312500
+Kd 0.312500 0.312500 0.312500
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\5F40F14E_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\5F40F14E_c.png
+
+newmtl VMtl091
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\779FAD4E_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\779FAD4E_c.png
+
+newmtl VMtl092
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\4C32C130_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\4C32C130_c.png
+
+newmtl VMtl100
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\6E0371FC_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\6E0371FC_c.png
+
+newmtl VMtl101
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\434C33B4_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\434C33B4_c.png
+
+newmtl VMtl102
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\377F628B_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\377F628B_c.png
+
+newmtl VMtl103
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\494BEA05_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\494BEA05_c.png
+
+newmtl VMtl104
+Ns 17.647059
+Ka 0.207000 0.207000 0.207000
+Kd 0.207000 0.207000 0.207000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Matt\Desktop\TempleOfTime\481A1D93_c.png
+map_Ka C:\\Users\\Matt\\Desktop\\TempleOfTime\\481A1D93_c.png

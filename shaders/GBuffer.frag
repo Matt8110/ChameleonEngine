@@ -3,8 +3,7 @@
 layout (location = 0) out vec4 gPosition;
 layout (location = 1) out vec4 gNormal;
 layout (location = 2) out vec4 gDiffuse;
-layout (location = 3) out vec4 gTangent;
-layout (location = 4) out vec4 gSpecular;
+layout (location = 3) out vec4 gSpecular;
 
 in vec2 texCoordPass;
 in vec3 normalPass;
@@ -38,12 +37,16 @@ uniform bool specularMapEnable;
 uniform float specularStrength;
 uniform float specularDampening;
 uniform bool shadowEnable;
+uniform bool parallaxCorrected;
+uniform vec3 cubePosition;
+uniform vec3 cubeSize;
+uniform vec3 diffuseColor;
 
 float secondTextureStrengthFinal;
 
 //Function declarations
 void directionalShadowCalculation();
-
+vec3 parallaxCorrect( vec3 refleced, vec3 cubeSize2, vec3 cubePos );
 float shadowBrightness;
 
 void main()
@@ -76,11 +79,21 @@ void main()
 	{
 		vec3 viewVector = normalize(-camPos);
 		vec3 reflectedVector = reflect(viewVector, normalize(gNormal.xyz));
-		gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, reflectedVector).xyz, cubeMapStrength);
-		//gDiffuse = texture(cubeMap, reflectedVector);
+		
+		if (parallaxCorrected)
+		{
+			gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, parallaxCorrect(reflectedVector, cubeSize, cubePosition)).xyz, clamp(1.0 - dot(-viewVector, gNormal.xyz), cubeMapStrength/25, cubeMapStrength));
+		}
+		else
+			gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, reflectedVector).xyz, cubeMapStrength);
 	}
 	
 	gDiffuse *= shadowBrightness;
+	
+	if (gDiffuse.a < 0.99)
+		discard;
+	
+	gDiffuse.rgb *= diffuseColor;
 	
 	//Calculating the specular strength and specular map into the alpha channel of the diffuse
 	
@@ -97,8 +110,25 @@ void main()
 		
 	}
 	
-	gTangent = vec4(tangentPass, 1.0);
 	gSpecular = vec4(finalSpecularPower, specularDampening, 1.0, 1.0);
+}
+
+
+vec3 parallaxCorrect( vec3 reflected, vec3 cubeSize2, vec3 cubePos ) {
+
+    vec3 nDir = normalize(reflected);
+    vec3 rbmax = (   .5 * ( cubeSize2 - cubePos ) - vertexPass ) / nDir;
+    vec3 rbmin = ( - .5 * ( cubeSize2 - cubePos ) - vertexPass ) / nDir;
+
+    vec3 rbminmax;
+    rbminmax.x = ( nDir.x > 0. )?rbmax.x:rbmin.x;
+    rbminmax.y = ( nDir.y > 0. )?rbmax.y:rbmin.y;
+    rbminmax.z = ( nDir.z > 0. )?rbmax.z:rbmin.z;
+
+    float correction = min(min(rbminmax.x, rbminmax.y), rbminmax.z);
+    vec3 boxIntersection = vertexPass + nDir * correction;
+
+    return boxIntersection - cubePos;
 }
 
 void directionalShadowCalculation()

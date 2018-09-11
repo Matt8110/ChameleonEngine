@@ -30,7 +30,7 @@ public class OBJModel extends Renderable{
 		material.mainTexture = Utils.loadTexture(texture);
 		
 		filename = file;
-		mtlFile = new MTLFile();
+		//mtlFile = new MTLFile();
 		
 		loadData();
 		sortData();
@@ -46,12 +46,17 @@ public class OBJModel extends Renderable{
 		material.enableNormalMap(true);
 		
 		filename = file;
-		mtlFile = new MTLFile();
+		//mtlFile = new MTLFile();
 		
 		loadData();
 		sortData();
 		
 		vao = new VAO(vertices, normals, texCoords, tangents, true);
+		
+		vertices = null;
+		normals = null;
+		texCoords = null;
+		tangents = null;
 		
 	}
 	

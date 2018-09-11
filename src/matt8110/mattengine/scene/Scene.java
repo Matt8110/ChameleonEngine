@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import matt8110.mattengine.core.TextureManager;
 import matt8110.mattengine.core.Utils;
 import matt8110.mattengine.core.Window;
 import matt8110.mattengine.geometry.MTLFile;
@@ -35,15 +36,22 @@ public class Scene extends Renderable{
 	public Map<String, SceneChunk> chunks = new HashMap<String, SceneChunk>();
 	private String chunkName = null;
 	
-	public Scene(String file, String texture) {
+	public Scene(String file, String texturePath) {
 		
-		material.mainTexture = Utils.loadTexture(texture);
+		//material.mainTexture = Utils.loadTexture(texture);
 		
 		filename = file;
-		mtlFile = new MTLFile();
+		String[] filenameSplit = file.split("\\.");
+		
+		mtlFile = new MTLFile(filenameSplit[0] + ".mtl", texturePath);
 		
 		loadData();
 		//sortData();
+		
+		vertices = null;
+		normals = null;
+		texCoords = null;
+		tangents = null;
 		
 	}
 	
@@ -88,12 +96,14 @@ public class Scene extends Renderable{
 						facesList.add(Integer.parseInt(lineSplit[8]));
 						facesList.add(Integer.parseInt(lineSplit[9]));
 					break;
-					case "o":
+					case "usemtl":
 						if (chunkName != null) {
 							
 							//if ()
 							SceneChunk chunk = new SceneChunk();
 							sortData();
+							
+							chunk.material.setMainTexture(TextureManager.getTexture(chunkName));
 							
 							chunk.vao = new VAO(vertices, normals, texCoords, tangents, true);
 							chunks.put(chunkName, chunk);
@@ -109,6 +119,8 @@ public class Scene extends Renderable{
 			SceneChunk chunk = new SceneChunk();
 			
 			sortData();
+			
+			chunk.material.setMainTexture(TextureManager.getTexture(chunkName));
 			
 			chunk.vao = new VAO(vertices, normals, texCoords, tangents, true);
 			chunks.put(chunkName, chunk);
@@ -136,7 +148,7 @@ public class Scene extends Renderable{
 				
 			if (type == ShaderType.GBUFFER) {
 				Window.gBufferShader.setTransformation(position, rotation, scale);
-				material.setShaderData(Window.gBufferShader);
+				chunk.material.setShaderData(Window.gBufferShader);
 			}
 			
 			GL30.glBindVertexArray(chunk.vao.getVaoID());
@@ -146,7 +158,7 @@ public class Scene extends Renderable{
 			GL20.glEnableVertexAttribArray(2);
 			
 			//Enable normal mapping if there is a texture
-			if (material.normalMap != -1) {
+			if (chunk.material.normalMap != -1) {
 				GL20.glEnableVertexAttribArray(3);
 			}
 			
