@@ -7,10 +7,11 @@ uniform sampler2D gPosition;
 uniform sampler2D gNormal;
 uniform sampler2D gDiffuse;
 uniform sampler2D gSpecular;
+uniform sampler2D gBloomMap;
 uniform sampler2D specularMap;
 
 const int MAX_LIGHTS = 100;
-const float lightCutoff = 20;
+const float lightCutoff = 50;
 uniform vec3 pointLightPosition[MAX_LIGHTS];
 uniform vec3 pointLightColor[MAX_LIGHTS];
 uniform float pointLightRange[MAX_LIGHTS];
@@ -27,7 +28,7 @@ uniform bool cellShadingEnable;
 uniform bool directionalLightEnable;
 
 vec3 position, tangent, normal;
-vec4 diffuse;
+vec4 diffuse, bloom;
 vec2 specular;
 
 mat3 TSpace;
@@ -47,6 +48,9 @@ void main()
 	normal = texture(gNormal, texCoordPass).xyz;
 	diffuse = texture(gDiffuse, texCoordPass);
 	specular = texture(gSpecular, texCoordPass).xy;
+	bloom = texture(gBloomMap, texCoordPass);
+	
+	diffuse += bloom;
 	
 	//Adjusting exposure for HDR
 	diffuse.rgb = vec3(1.0) - exp(-diffuse.rgb * exposure);
@@ -68,8 +72,8 @@ void main()
 		
 		if (cellShadingEnable)
 	{
-		//float cellShadeLevel = floor(finalBrightness.r * cellLevels);
-		//finalBrightness = vec3(cellShadeLevel / cellLevels);
+		float cellShadeLevel = floor(finalBrightness.r * cellLevels);
+		finalBrightness = vec3(cellShadeLevel / cellLevels) + ambientColor;
 	}
 	
 	colour = vec4(diffuse.rgb, 1.0) * vec4(finalBrightness, 1.0);

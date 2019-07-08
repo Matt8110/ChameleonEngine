@@ -12,6 +12,7 @@ public class GBuffer {
 
 	private static FBO _gBuffer;
 	private static GBuffer2D output;
+	public static int _finalGBloom;
 	
 	public static void initGBuffer(int msaa) {
 		
@@ -46,6 +47,8 @@ public class GBuffer {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, _gBuffer._gDiffuse);
 		GL13.glActiveTexture(GL13.GL_TEXTURE3);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, _gBuffer._gSpecular);
+		GL13.glActiveTexture(GL13.GL_TEXTURE4);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, _finalGBloom);
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		output.render();

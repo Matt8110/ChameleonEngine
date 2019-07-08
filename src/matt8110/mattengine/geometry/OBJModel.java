@@ -1,7 +1,9 @@
 package matt8110.mattengine.geometry;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -118,6 +120,14 @@ public class OBJModel extends Renderable{
 		texCoordCounter = 0;
 		verticesCounter = 0;
 		
+		/*Formatter format = null;
+		try {
+			format = new Formatter(new File("switchmodel.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		for (int i = 0; i < facesList.size(); i += 3) {
 			
 			float vertX = verticesList.get((facesList.get(i) - 1) * 3);
@@ -135,11 +145,25 @@ public class OBJModel extends Renderable{
 			normals[verticesCounter + 1] = normalsList.get((facesList.get(i+2) - 1) * 3 + 1);
 			normals[verticesCounter + 2] = normalsList.get((facesList.get(i+2) - 1) * 3 + 2);
 			
+			//Temp for switch
+			/*format.format("{ {");
+			format.format(vertX * 0.1f + "f, ");
+			format.format(vertY * 0.1f + "f, ");
+			format.format(vertZ * 0.1f + "f}, {");
+			
+			format.format(texCoordsList.get((facesList.get(i+1) - 1) * 2) + "f, " + -texCoordsList.get((facesList.get(i+1) - 1) * 2 + 1) + "f}, {");
+			
+			format.format(normalsList.get((facesList.get(i+2) - 1) * 3) + "f, ");
+			format.format(normalsList.get((facesList.get(i+2) - 1) * 3 + 1) + "f, ");
+			format.format(normalsList.get((facesList.get(i+2) - 1) * 3 + 2) + "f} },\n");*/
+			
 			texCoordCounter += 2;
 			verticesCounter += 3;
 			
 			createBoundingBox(vertX, vertY, vertZ);
 		}
+		
+		//format.close();
 		
 		
 		//Calculate tangents

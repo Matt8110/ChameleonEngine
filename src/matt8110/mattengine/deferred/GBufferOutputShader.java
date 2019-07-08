@@ -15,7 +15,7 @@ import matt8110.mattengine.shaders.Shader;
 
 public class GBufferOutputShader extends Shader{
 
-	private int gPositionLoc, gNormalLoc, gDiffuseLoc, gSpecularLoc,  directionalLightDirectionLoc, directionalLightEnableLoc, directionalLightColorLoc;
+	private int gPositionLoc, gNormalLoc, gDiffuseLoc, gSpecularLoc, gBloomMapLoc, directionalLightDirectionLoc, directionalLightEnableLoc, directionalLightColorLoc;
 	private int ambientColor, cameraPositionLoc, cellShadingEnableLoc, renderingCubeMapLoc;
 	private int pointLightPositionLoc, pointLightColorLoc, pointLightRangeLoc, numberOfPointLightsLoc, exposureLoc, gammaLoc;
 	
@@ -29,6 +29,7 @@ public class GBufferOutputShader extends Shader{
 		gNormalLoc = super.getUniformLocation("gNormal");
 		gDiffuseLoc = super.getUniformLocation("gDiffuse");
 		gSpecularLoc = super.getUniformLocation("gSpecular");
+		gBloomMapLoc = super.getUniformLocation("gBloomMap");
 		
 		directionalLightDirectionLoc = super.getUniformLocation("directionalLightDirection");
 		directionalLightEnableLoc = super.getUniformLocation("directionalLightEnable");
@@ -49,6 +50,7 @@ public class GBufferOutputShader extends Shader{
 		super.setInt(gNormalLoc, 1);
 		super.setInt(gDiffuseLoc, 2);
 		super.setInt(gSpecularLoc, 3);
+		super.setInt(gBloomMapLoc, 4);
 		
 	}
 	

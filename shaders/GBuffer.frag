@@ -1,11 +1,13 @@
 #version 330 core
 
-layout (location = 0) out vec4 gPosition;
+layout (location = 0) out vec4 gDiffuse;
 layout (location = 1) out vec4 gNormal;
-layout (location = 2) out vec4 gDiffuse;
+layout (location = 2) out vec4 gPosition;
 layout (location = 3) out vec4 gSpecular;
+layout (location = 4) out vec4 gBloomMap;
 
 in vec2 texCoordPass;
+in vec2 untouchedTexCoord;
 in vec3 normalPass;
 in vec3 vertexPass;
 in vec3 tangentPass;
@@ -18,6 +20,9 @@ in vec4 depthMat;
 
 uniform sampler2D mainTexture;
 uniform sampler2D secondTexture;
+uniform sampler2D thirdTexture;
+uniform sampler2D fourthTexture;
+uniform sampler2D terrainMap;
 uniform sampler2D shadowMap;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
@@ -27,6 +32,7 @@ uniform float secondTextureStrength;
 uniform vec3 diffColor, ambientColor;
 uniform bool secondTextureEnable;
 uniform vec3 directionalLightDirection;
+uniform bool isTerrain;
 
 uniform bool normalMapEnable;
 uniform bool cubeMapEnable;
@@ -46,11 +52,16 @@ float secondTextureStrengthFinal;
 
 //Function declarations
 void directionalShadowCalculation();
-vec3 parallaxCorrect( vec3 refleced, vec3 cubeSize2, vec3 cubePos );
+vec3 parallaxCorrect( vec3 v, vec3 cubeSize2, vec3 cubePos );
 float shadowBrightness;
 
 void main()
 {
+	
+	vec4 secondTextureColor = texture(secondTexture, texCoordPass);
+	vec4 thirdTextureColor = texture(thirdTexture, texCoordPass);
+	vec4 fourthTextureColor = texture(fourthTexture, texCoordPass);
+	vec4 terrainMapColor = texture(terrainMap, untouchedTexCoord);
 	
 	if (shadowEnable)
 	{
@@ -75,6 +86,14 @@ void main()
 	
 	gDiffuse = texture(mainTexture, texCoordPass);
 	
+	if (isTerrain)
+	{
+		gDiffuse.xyz = mix(gDiffuse.xyz, secondTextureColor.rgb, terrainMapColor.r);
+		gDiffuse.xyz = mix(gDiffuse.xyz, thirdTextureColor.rgb, terrainMapColor.g);
+		gDiffuse.xyz = mix(gDiffuse.xyz, fourthTextureColor.rgb, terrainMapColor.b);
+		gDiffuse.a = 1.0;
+	}
+	
 	if (cubeMapEnable)
 	{
 		vec3 viewVector = normalize(-camPos);
@@ -83,20 +102,28 @@ void main()
 		if (parallaxCorrected)
 		{
 			gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, parallaxCorrect(reflectedVector, cubeSize, cubePosition)).xyz, clamp(1.0 - dot(-viewVector, gNormal.xyz), cubeMapStrength/25, cubeMapStrength));
+			//gDiffuse.xyz = texture(cubeMap, parallaxCorrect(reflectedVector, cubeSize, cubePosition)).xyz;
 		}
 		else
 			gDiffuse.xyz = mix(gDiffuse.xyz, texture(cubeMap, reflectedVector).xyz, cubeMapStrength);
 	}
 	
-	gDiffuse *= shadowBrightness;
+	gDiffuse.rgb *= shadowBrightness;
 	
 	if (gDiffuse.a < 0.99)
 		discard;
 	
 	gDiffuse.rgb *= diffuseColor;
 	
-	//Calculating the specular strength and specular map into the alpha channel of the diffuse
 	
+	//Outputting brightness for bloom
+	float brightness = dot(gDiffuse.rgb, vec3(0.2126, 0.7152, 0.0722));
+    if(brightness > 1.0)
+        gBloomMap = vec4(gDiffuse.rgb, 1.0);
+    else
+        gBloomMap = vec4(0.0, 0.0, 0.0, 1.0);
+	
+	//Calculating the specular strength and specular map into the alpha channel of the diffuse
 	float finalSpecularPower = 0.0;
 	
 	if (specularEnable)
@@ -114,11 +141,13 @@ void main()
 }
 
 
-vec3 parallaxCorrect( vec3 reflected, vec3 cubeSize2, vec3 cubePos ) {
+vec3 parallaxCorrect( vec3 v, vec3 cubeSize2, vec3 cubePos ) {
 
-    vec3 nDir = normalize(reflected);
-    vec3 rbmax = (   .5 * ( cubeSize2 - cubePos ) - vertexPass ) / nDir;
-    vec3 rbmin = ( - .5 * ( cubeSize2 - cubePos ) - vertexPass ) / nDir;
+    vec3 nDir = normalize(v);
+    //vec3 rbmax = ( ( cubePos + cubeSize2/2 ) - vertexPass ) / nDir;
+    //vec3 rbmin = ( (cubePos - cubeSize2/2) - vertexPass ) / nDir;
+	vec3 rbmax = ( .5 * ( cubeSize2 - cubePos ) - vertexPass ) / nDir;
+    vec3 rbmin = ( - .5 * (cubeSize2 - cubePos) - vertexPass ) / nDir;
 
     vec3 rbminmax;
     rbminmax.x = ( nDir.x > 0. )?rbmax.x:rbmin.x;
@@ -135,13 +164,13 @@ void directionalShadowCalculation()
 {
 	vec3 shadowCoords = depthMat.xyz;
 	float cosTheta = dot(normalize(normalPass), normalize(-directionalLightDirection));
-	float bias = 0.001*tan(acos(cosTheta));
+	float bias = 0.005;
 	
 	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
 	
 	int pIndex = 0;
 	
-	for(int x = -1; x <= 1; ++x)
+	/*for(int x = -1; x <= 1; ++x)
 		for(int y = -1; y <= 1; ++y)
 		{
 		
@@ -154,10 +183,15 @@ void directionalShadowCalculation()
 				shadowBrightness += shadowCoords.z - bias > pcfDepth ? 1.0 : 0.0;      
   
 			}
+		}*/
+		
+		if (shadowCoords.x > 1.0 || shadowCoords.y > 1.0 || shadowCoords.x < 0.0 || shadowCoords.y < 0.0)
+		shadowBrightness = 1.0;
+		else if (texture(shadowMap, shadowCoords.xy).z < shadowCoords.z-bias){
+			shadowBrightness += 15;
 		}
 	
-	if (shadowCoords.z > 1.0 || shadowCoords.z < 0.0)
-		shadowBrightness = 0.0;
+	
 	
 	shadowBrightness /= 40.0;
 	shadowBrightness = 1.0 - shadowBrightness;

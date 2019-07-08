@@ -1,43 +1,10 @@
-newmtl dkred_carpet_s
+newmtl Carpet
 Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\dkred_carpet_s.png
+map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\Carpet.png
 illum 2
 
-newmtl dkredcarpet
+newmtl img
 Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\dkredcarpet.png
-illum 2
-
-newmtl dkred_carpet_b
-Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\dkred_carpet_b.png
-illum 2
-
-newmtl dkred_carpet_e
-Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\dkred_carpet_e.png
-illum 2
-
-newmtl redcarpet
-Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\redcarpet.png
-illum 2
-
-newmtl Default-Material
-Kd 1 1 1
-illum 2
-
-newmtl dkred_carpet_t
-Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\dkred_carpet_t.png
-illum 2
-
-newmtl Black
-Kd 0 0 0
-illum 2
-
-newmtl grass
-Kd 1 1 1
-map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\grass.png
+map_Kd C:\Users\Matt\eclipse-workspace\MattEngine2.0\testscene\img.png
 illum 2
 

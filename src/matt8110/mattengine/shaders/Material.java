@@ -2,6 +2,7 @@ package matt8110.mattengine.shaders;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import matt8110.mattengine.core.Camera;
@@ -17,6 +18,9 @@ public class Material {
 
 	public int mainTexture = -1;
 	public int secondTexture = -1;
+	public int thirdTexture = -1;
+	public int fourthTexture = -1;
+	public int terrainMap = -1;
 	public int normalMap = -1;
 	public int specularMap = -1;
 	public int cubeMap = -1;
@@ -36,6 +40,8 @@ public class Material {
 	private boolean parallaxCorrected = false;
 	private Vector3f cubePosition = new Vector3f();
 	private Vector3f cubeSize = new Vector3f();
+	private Vector2f texCoordTile = new Vector2f(1, 1);
+	private boolean isTerrain = false;
 	
 	public void setShaderData(GBufferShader shader) {
 		
@@ -46,6 +52,7 @@ public class Material {
 		shader.setBool(shader.specularMapEnable, specularMapEnabled);
 		shader.setBool(shader.cubeMapEnable, cubeMapEnabled);
 		shader.setBool(shader.parallaxCorrected, parallaxCorrected);
+		shader.setBool(shader.isTerrainLoc, isTerrain);
 		
 		//Setting values that need set
 		shader.setVector3(shader.diffuseColor, diffuseColor);
@@ -55,6 +62,7 @@ public class Material {
 		shader.setFloat(shader.cubeMapStrength, cubeMapStrength);
 		shader.setVector3(shader.cubePosition, cubePosition);
 		shader.setVector3(shader.cubeSize, cubeSize);
+		shader.setVector2(shader.texCoordTile, texCoordTile);
 		
 		//Only setting textures if they're valid
 		if (mainTexture != -1) {
@@ -65,7 +73,7 @@ public class Material {
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, 1);
 		}
 		
-		if (secondTextureEnabled) {
+		if (secondTexture != -1) {
 			GL13.glActiveTexture(GL13.GL_TEXTURE1);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, secondTexture);
 		}
@@ -87,6 +95,19 @@ public class Material {
 			GL13.glActiveTexture(GL13.GL_TEXTURE5);
 			GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, cubeMap);
 			cubeMapEnabled = true;
+		}
+		
+		if (thirdTexture != -1) {
+			GL13.glActiveTexture(GL13.GL_TEXTURE6);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, thirdTexture);
+		}
+		if (fourthTexture != -1) {
+			GL13.glActiveTexture(GL13.GL_TEXTURE7);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, fourthTexture);
+		}
+		if (terrainMap != -1) {
+			GL13.glActiveTexture(GL13.GL_TEXTURE8);
+			GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrainMap);
 		}
 		
 		
@@ -183,6 +204,9 @@ public class Material {
 		
 	}
 	
+	public void setTerrain(boolean isTerrain) {
+		this.isTerrain = isTerrain;
+	}
 	public void setCulling(boolean enable) {
 		_cullingEnabled = enable;
 	}
@@ -255,6 +279,10 @@ public class Material {
 		diffuseColor.x = r;
 		diffuseColor.y = g;
 		diffuseColor.z = b;
+	}
+	public void setTexCoordTiling(float x, float y) {
+		texCoordTile.x = x;
+		texCoordTile.y = y;
 	}
 	
 }

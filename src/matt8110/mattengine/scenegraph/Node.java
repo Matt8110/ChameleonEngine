@@ -41,6 +41,14 @@ public class Node {
 		
 	}
 	
+	public void remove(Renderable child) {
+		renderables.remove(child);
+	}
+	
+	public void remove(Node child) {
+		children.remove(child);
+	}
+	
 	public void render(ShaderType type) {
 		
 		for (Node node : children) {

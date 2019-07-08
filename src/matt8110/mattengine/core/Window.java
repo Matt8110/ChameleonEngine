@@ -1,11 +1,12 @@
 package matt8110.mattengine.core;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.PixelFormat;
-import org.lwjgl.util.vector.Vector3f;
 
 import matt8110.mattengine.cubemap.Skybox;
 import matt8110.mattengine.deferred.GBuffer;
@@ -15,6 +16,8 @@ import matt8110.mattengine.gui.Renderer2D;
 import matt8110.mattengine.lighting.LightManager;
 import matt8110.mattengine.lighting.Shadows;
 import matt8110.mattengine.scenegraph.Renderer;
+import matt8110.mattengine.shaders.Blur;
+import matt8110.mattengine.shaders.BlurShader;
 import matt8110.mattengine.shaders.Shader;
 import matt8110.mattengine.shaders.ShaderType;
 import matt8110.mattengine.shaders.ShadowShader;
@@ -28,9 +31,11 @@ public class Window {
 	public static ShadowShader shadowShader;
 	public static SkyboxShader skyboxShader;
 	public static GBufferShader gBufferShader;
+	public static BlurShader blurShader;
 	public static GBufferOutputShader gBufferOutputShader;
 	public static Shader shader2D, shaderText;
 	public static Camera currentCamera;
+	public static AtomicBoolean running = new AtomicBoolean();
 	
 	public static void createWindow(String title, int width, int height, boolean fullscreen, Camera camera, int aa) {
 		
@@ -38,12 +43,15 @@ public class Window {
 		HEIGHT = height;
 		FULLSCREEN = fullscreen;
 		currentCamera = camera;
+		running.set(true);
 		
 		try {
 			
 			Display.setTitle(title);
 			setFullscreen(fullscreen);
 			Display.create(new PixelFormat().withSamples(aa).withDepthBits(24));
+			
+			AL.create();
 			
 		}catch(Exception e) {
 			System.err.println("Failed to create window!");
@@ -58,6 +66,7 @@ public class Window {
 		gBufferShader = new GBufferShader();
 		gBufferOutputShader = new GBufferOutputShader();
 		skyboxShader = new SkyboxShader();
+		blurShader = new BlurShader();
 		shader2D = new Shader("shaders/2d.vert", "shaders/2d.frag");
 		shaderText = new Shader("shaders/text.vert", "shaders/text.frag");
 		
@@ -68,10 +77,13 @@ public class Window {
 		setCulling(true);
 		
 		//Initialize shadows
-		Shadows.initShadows(2048, 400);
+		Shadows.initShadows(4096, 200);
 		
 		//Init gBuffer
 		GBuffer.initGBuffer(1);
+		
+		//Init gaussian blur
+		Blur.initBlur();
 		
 		
 	}
@@ -79,6 +91,10 @@ public class Window {
 		
 		currentCamera = camera;
 		
+	}
+	
+	public static Camera getCurrentCamera() {
+		return currentCamera;
 	}
 	
 	public static boolean windowIsOpen() {
@@ -89,6 +105,8 @@ public class Window {
 	
 	public static void cleanup() {
 		
+		running.set(false);
+		AL.destroy();
 		Display.destroy();
 		
 	}
@@ -126,6 +144,10 @@ public class Window {
 		gBufferShader.setProjectionAndViewMatrix();
 		Renderer.render(ShaderType.GBUFFER);
 		GBuffer.unbindGBufferFBO();
+		
+		if (Renderer._bloomEnabled)
+			GBuffer._finalGBloom = Blur.renderBlur(GBuffer.getFBO()._gBloomMap, 1);
+		
 	}
 	
 	public static void _renderFinal() {

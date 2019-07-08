@@ -13,9 +13,10 @@ import matt8110.mattengine.shaders.Shader;
 public class GBufferShader extends Shader{
 
 	private int projectionLoc, transformationLoc, viewLoc, shadowViewLoc, shadowProjectionLoc, shadowBiasLoc, cameraPosLoc;
-	private int mainTextureLoc, secondTextureLoc, shadowMapLoc, directionalLightDirectionLoc, normalMapLoc, specularMapLoc, cubeMapLoc;
+	private int mainTextureLoc, secondTextureLoc, thirdTextureLoc, fourthTextureLoc, terrainMapLoc, shadowMapLoc, directionalLightDirectionLoc, normalMapLoc, specularMapLoc, cubeMapLoc;
 	public int secondTextureEnable, normalMapEnable, specularEnable, specularMapEnable, shadowEnable, cubeMapEnable, cubePosition, cubeSize;
-	public int secondTextureStrength, diffuseColor, specularStrength, specularDampening, cubeMapStrength, parallaxCorrected;
+	public int secondTextureStrength, diffuseColor, specularStrength, specularDampening, cubeMapStrength, parallaxCorrected, isTerrainLoc;
+	public int texCoordTile;
 	
 	public GBufferShader() {
 		super("shaders/GBuffer.vert", "shaders/GBuffer.frag");
@@ -36,10 +37,15 @@ public class GBufferShader extends Shader{
 		//Textures
 		mainTextureLoc = super.getUniformLocation("mainTexture");
 		secondTextureLoc = super.getUniformLocation("secondTexture");
+		thirdTextureLoc = super.getUniformLocation("thirdTexture");
+		fourthTextureLoc = super.getUniformLocation("fourthTexture");
+		terrainMapLoc = super.getUniformLocation("terrainMap");
 		shadowMapLoc = super.getUniformLocation("shadowMap");
 		normalMapLoc = super.getUniformLocation("normalMap");
 		specularMapLoc = super.getUniformLocation("specularMap");
 		cubeMapLoc = super.getUniformLocation("cubeMap");
+		texCoordTile = super.getUniformLocation("texCoordTile");
+		isTerrainLoc = super.getUniformLocation("isTerrain");
 		
 		secondTextureEnable = super.getUniformLocation("secondTextureEnable");
 		normalMapEnable = super.getUniformLocation("normalMapEnable");
@@ -62,6 +68,9 @@ public class GBufferShader extends Shader{
 		super.setInt(specularMapLoc, 3);
 		super.setInt(shadowMapLoc, 4);
 		super.setInt(cubeMapLoc, 5);
+		super.setInt(thirdTextureLoc, 6);
+		super.setInt(fourthTextureLoc, 7);
+		super.setInt(terrainMapLoc, 8);
 		
 		super.setMatrix4(shadowBiasLoc, Maths.getShadowBiasMatrix());
 		

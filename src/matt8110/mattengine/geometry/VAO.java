@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import matt8110.mattengine.core.Utils;
+import matt8110.mattengine.scenegraph.Renderer;
 
 public class VAO {
 
@@ -20,6 +21,7 @@ public class VAO {
 	public VAO(float[] vertices, float[] normals, float[] texCoords, boolean isStatic) {
 		
 		vertexCount = vertices.length / 3;
+		Renderer.polyCount += vertexCount;
 		
 		this.isStatic = isStatic;
 		
@@ -37,6 +39,7 @@ public class VAO {
 	public VAO(float[] vertices, float[] normals, float[] texCoords, float[] tangents, boolean isStatic) {
 		
 		vertexCount = vertices.length / 3;
+		Renderer.polyCount += vertexCount;
 		
 		this.isStatic = isStatic;
 		
@@ -55,6 +58,7 @@ public class VAO {
 	public VAO(float[] vertices) {
 		
 		vertexCount = vertices.length / 3;
+		Renderer.polyCount += vertexCount;
 		
 		this.isStatic = true;
 		
@@ -131,6 +135,8 @@ public class VAO {
 	
 	public void cleanup() {
 		
+		Renderer.polyCount -= vertexCount;
+		
 		GL30.glBindVertexArray(vaoID);
 		
 		for (int id : VBOs) {
@@ -139,6 +145,8 @@ public class VAO {
 		
 		GL30.glBindVertexArray(0);
 		GL30.glDeleteVertexArrays(vaoID);
+		
+		//GL11.glFinish();
 		
 	}
 	

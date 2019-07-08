@@ -38,6 +38,23 @@ public class Utils {
 		
 	}
 	
+	public static float lerp(float a, float b, float f)
+	{
+	    return a + f * (b - a);
+	}
+	
+	public static float distanceTo3D(float x1, float y1, float z1, float x2, float y2, float z2) {
+		
+		return (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) + (z2-z1)*(z2-z1);
+		
+	}
+	
+	public static float distanceTo2D(float x1, float z1, float x2, float z2) {
+		
+		return (x2-x1)*(x2-x1) + (z2-z1)*(z2-z1);
+		
+	}
+	
 	public static IntBuffer asIntBuffer(int[] data) {
 		
 		IntBuffer tempBuffer = BufferUtils.createIntBuffer(data.length);

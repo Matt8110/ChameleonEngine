@@ -16,6 +16,7 @@ public class Renderable {
 	protected Vector3f rotation = new Vector3f();
 	protected float scale = 1.0f;
 	protected VAO vao;
+	protected boolean canRender = true;
 	public Material material = new Material();
 	
 	public Vector3f getPosition() {
@@ -38,6 +39,10 @@ public class Renderable {
 		rotation.z = z;
 	}
 	
+	public void setRenderable(boolean enable) {
+		canRender = enable;
+	}
+	
 	public float getScale() {
 		return scale;
 	}
@@ -48,38 +53,42 @@ public class Renderable {
 	
 	public void render(ShaderType type) {
 		
-		//Window.mainShader.setTransformation(position, rotation, scale);
-		if (type == ShaderType.SHADOW) {
-			Window.shadowShader.setTransformation(position, rotation, scale);
-		}
-			
-		if (type == ShaderType.GBUFFER) {
-			Window.gBufferShader.setTransformation(position, rotation, scale);
-			material.setShaderData(Window.gBufferShader);
-		}
+		if (canRender) {
 		
-		
-		if (type != ShaderType.SHADOW || material.getCanCastShadows()) {
-		
-			if (!material._cullingEnabled)
-				GL11.glDisable(GL11.GL_CULL_FACE);
-			
-			GL30.glBindVertexArray(vao.getVaoID());
-			
-			GL20.glEnableVertexAttribArray(0);
-			GL20.glEnableVertexAttribArray(1);
-			GL20.glEnableVertexAttribArray(2);
-			
-			//Enable normal mapping if there is a texture
-			if (material.normalMap != -1) {
-				GL20.glEnableVertexAttribArray(3);
+			//Window.mainShader.setTransformation(position, rotation, scale);
+			if (type == ShaderType.SHADOW) {
+				Window.shadowShader.setTransformation(position, rotation, scale);
+			}
+				
+			if (type == ShaderType.GBUFFER) {
+				Window.gBufferShader.setTransformation(position, rotation, scale);
+				material.setShaderData(Window.gBufferShader);
 			}
 			
-			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vao.getVertexCount());
 			
-			GL30.glBindVertexArray(0);
+			if (type != ShaderType.SHADOW || material.getCanCastShadows()) {
 			
-			GL11.glEnable(GL11.GL_CULL_FACE);
+				if (!material._cullingEnabled)
+					GL11.glDisable(GL11.GL_CULL_FACE);
+				
+				GL30.glBindVertexArray(vao.getVaoID());
+				
+				GL20.glEnableVertexAttribArray(0);
+				GL20.glEnableVertexAttribArray(1);
+				GL20.glEnableVertexAttribArray(2);
+				
+				//Enable normal mapping if there is a texture
+				if (material.normalMap != -1) {
+					GL20.glEnableVertexAttribArray(3);
+				}
+				
+				GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, vao.getVertexCount());
+				
+				GL30.glBindVertexArray(0);
+				
+				GL11.glEnable(GL11.GL_CULL_FACE);
+			
+			}
 		
 		}
 		

@@ -24,6 +24,7 @@ public class MTLFile {
 				
 				if (lineSplit[0].equalsIgnoreCase("map_Kd")) {
 					lastTexName = filePath + lineSplit[lineSplit.length-1];
+					
 				}
 				
 				if (lineSplit[0].equalsIgnoreCase("newmtl")) {
@@ -37,6 +38,13 @@ public class MTLFile {
 					lastTexName = "texturerror.png";
 					lastMatName = lineSplit[1];
 				}
+				
+			}
+			
+			//Loading the final texture
+			if (lastMatName != null) {
+				
+				TextureManager.addTexture(lastMatName, lastTexName);
 				
 			}
 			

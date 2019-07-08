@@ -43,6 +43,7 @@ public class Texture2D {
 		
 		Window.setCulling(false);
 		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 		
 		GL30.glBindVertexArray(vao.getVaoID());
@@ -63,6 +64,7 @@ public class Texture2D {
 		
 		Window.setCulling(false);
 		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 		
 		GL30.glBindVertexArray(vao.getVaoID());
@@ -94,6 +96,7 @@ public class Texture2D {
 		
 		setPosition(x, y);
 		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 		
 		GL30.glBindVertexArray(vao.getVaoID());

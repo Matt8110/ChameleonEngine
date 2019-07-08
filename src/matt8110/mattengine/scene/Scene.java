@@ -35,6 +35,7 @@ public class Scene extends Renderable{
 	private int texCoordCounter, verticesCounter;
 	public Map<String, SceneChunk> chunks = new HashMap<String, SceneChunk>();
 	private String chunkName = null;
+	private String textureName = null;
 	
 	public Scene(String file, String texturePath) {
 		
@@ -57,6 +58,10 @@ public class Scene extends Renderable{
 	
 	public SceneChunk getChunk(String name) {
 		return chunks.get(name);
+	}
+	
+	public void removeChunk(String name) {
+		chunks.remove(name);
 	}
 	
 	private void loadData() {
@@ -97,21 +102,29 @@ public class Scene extends Renderable{
 						facesList.add(Integer.parseInt(lineSplit[9]));
 					break;
 					case "usemtl":
+						textureName = lineSplit[1];
+						break;
+					case "g":
 						if (chunkName != null) {
 							
 							//if ()
 							SceneChunk chunk = new SceneChunk();
 							sortData();
 							
-							chunk.material.setMainTexture(TextureManager.getTexture(chunkName));
+							chunk.material.setMainTexture(TextureManager.getTexture(textureName));
 							
 							chunk.vao = new VAO(vertices, normals, texCoords, tangents, true);
 							chunks.put(chunkName, chunk);
 							
 							facesList.clear();
+							
 						}
 						
-						chunkName = lineSplit[1];
+						chunkName = "";
+						for (int i = 1; i < lineSplit.length; i++) {
+							chunkName += lineSplit[i];
+						}
+						
 				}
 				
 			}
@@ -120,7 +133,7 @@ public class Scene extends Renderable{
 			
 			sortData();
 			
-			chunk.material.setMainTexture(TextureManager.getTexture(chunkName));
+			chunk.material.setMainTexture(TextureManager.getTexture(textureName));
 			
 			chunk.vao = new VAO(vertices, normals, texCoords, tangents, true);
 			chunks.put(chunkName, chunk);
@@ -147,9 +160,12 @@ public class Scene extends Renderable{
 			}
 				
 			if (type == ShaderType.GBUFFER) {
-				Window.gBufferShader.setTransformation(position, rotation, scale);
+				Window.gBufferShader.setTransformation(position, Vector3f.add(rotation, chunk.rotation, null), scale);
 				chunk.material.setShaderData(Window.gBufferShader);
 			}
+			
+			if (!chunk.material._cullingEnabled)
+				GL11.glDisable(GL11.GL_CULL_FACE);
 			
 			GL30.glBindVertexArray(chunk.vao.getVaoID());
 			
@@ -163,6 +179,8 @@ public class Scene extends Renderable{
 			}
 			
 			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, chunk.vao.getVertexCount());
+			
+			GL11.glEnable(GL11.GL_CULL_FACE);
 			
 		GL30.glBindVertexArray(0);
 		

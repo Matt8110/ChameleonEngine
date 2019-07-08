@@ -41,7 +41,7 @@ public class Maths {
         mat.m11 = y_scale;
         mat.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
         mat.m23 = -1;
-        mat.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
+        mat.m32 = -((2 * FAR_PLANE * NEAR_PLANE) / frustum_length);
         mat.m33 = 0;
         
         
